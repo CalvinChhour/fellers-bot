@@ -5,7 +5,7 @@ Follow this guide if you are new to Git. https://git-scm.com/book/en/v2/Getting-
 
 Run `git clone https://github.com/CalvinChhour/fellers-bot/` to get the project
 
-## Build locally
+## build locally
 Make sure you have node.js 
 
 1) run `npm i`
