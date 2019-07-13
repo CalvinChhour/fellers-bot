@@ -11,7 +11,7 @@ let initializeBot = () => {
         autorun: true
     });
 
-    client.on("ready", async() => {
+    client.on("ready", async () => {
         logger.info(`${client.user.username} is online!`)
         client.user.setActivity('!f help', {type: 'PLAYING'});
     })
@@ -36,7 +36,9 @@ let initializeBot = () => {
             if (command === 'help') {
                 message.channel.send('', 
                                      new Discord.RichEmbed({description: "!f emote :KannaWave: - creates big emote \
-                                                                          \n !f avatar - sends big avatar of user"}));
+                                                                          \n !f avatar - sends big avatar of user"}))
+                                    .then(res => logger.info('Help message relayed')
+                                    .catch(err => logger.error(`Help failed: ${err}`)));
             }
 
             if (command === 'emote' && data) {
@@ -65,7 +67,9 @@ let initializeBot = () => {
                 // Send the user's avatar URL
                 message.channel.send('',
                                      new Discord.RichEmbed(payload)
-                                     .setImage(message.author.avatarURL));
+                                     .setImage(message.author.avatarURL))
+                                        .then(res => logger.info(`Avatar sent`))
+                                        .catch(err => logger.error(`Avatar failed to send: ${err}`));;
             }
         }
     });
