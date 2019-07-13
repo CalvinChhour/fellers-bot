@@ -3,7 +3,7 @@
 ## git
 Follow this guide if you are new to Git. https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 
-Run `git clone https://github.com/CalvinChhour/fellers-bot/edit/master/README.md` to get the project
+Run `git clone https://github.com/CalvinChhour/fellers-bot/` to get the project
 
 ## Build locally
 Make sure you have node.js 
