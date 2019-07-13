@@ -15,7 +15,8 @@ Make sure you have node.js
   'token': {put-token-here}
 }
 ```
-you can grab this token from the [Discord Devloper Portal](https://discordapp.com/developers/applications/) dm Calvin for access.
+> you can grab this token from the [Discord Devloper Portal](https://discordapp.com/developers/applications/) dm Calvin for access.
+
 3) run `npm run start` and the bot should be up and running.
 
 ## aws
