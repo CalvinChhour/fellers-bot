@@ -24,11 +24,11 @@ let initializeBot = () => {
 
     // Create an event listener for messages
     client.on('message', async (message) => {
-        logger.info(`Message sent by [${message.author.username}] in #${message.channel.name}: ${message.content}`)
+//        logger.info(`Message sent by [${message.author.username}] in #${message.channel.name}: ${message.content}`)
         const content = message.content;
         const payload = { title: `Sent by ${message.author.username}`}; 
         if (content.substring(0, 7) === '!feller' || content.substring(0,2) === '!f') {
-            logger.info('!feller prefix read');
+  //          logger.info('!feller prefix read');
             const splitMessage = content.split(' ');
             const command = splitMessage[1];
             let data = splitMessage[2];
