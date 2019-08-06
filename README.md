@@ -21,3 +21,5 @@ Make sure you have node.js
 
 ## aws
 There is currently an aws ec2 instance that hosts and runs the bot... this is still in development. 
+
+Once ssh'd into the ec2 instance, run `npm run pm2` to start up the fellers bot.
