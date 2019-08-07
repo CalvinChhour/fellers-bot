@@ -36,7 +36,8 @@ let initializeBot = () => {
             if (command === 'help') {
                 message.channel.send('', 
                                      new Discord.RichEmbed({description: "!f emote :KannaWave: - creates big emote \
-                                                                          \n !f avatar - sends big avatar of user"}))
+                                                                          \n !f avatar - sends big avatar of user\
+                                                                          \n !f whoami - sends username"}))
                                     .then(res => logger.info('Help message relayed')
                                     .catch(err => logger.error(`Help failed: ${err}`)));
             }
@@ -70,6 +71,16 @@ let initializeBot = () => {
                                      .setImage(message.author.avatarURL))
                                         .then(res => logger.info(`Avatar sent`))
                                         .catch(err => logger.error(`Avatar failed to send: ${err}`));;
+            }
+
+            if(command === 'whoami'){
+                logger.info('name command...')
+                // Send the user's username
+                message.channel.send('',
+                                    new Discord.RichEmbed({title: "You are: ", description: message.author.username})
+                                    .addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
+                                    .setColor(message.member.displayHexColor))
+                        
             }
         }
     });
