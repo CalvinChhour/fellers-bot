@@ -84,7 +84,6 @@ let initializeBot = () => {
 
             if(command === 'tft' && data){
                 logger.info('tft command...')
-                await message.delete()
                 message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'))
             }
         }
