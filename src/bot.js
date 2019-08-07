@@ -37,9 +37,10 @@ let initializeBot = () => {
                 message.channel.send('', 
                                      new Discord.RichEmbed({description: "!f emote :KannaWave: - creates big emote \
                                                                           \n !f avatar - sends big avatar of user\
-                                                                          \n !f whoami - sends username"}))
+                                                                          \n !f whoami - sends username\
+                                                                          \n !f tft Jacob_Hong - sends tft profile " }))
                                     .then(res => logger.info('Help message relayed')
-                                    .catch(err => logger.error(`Help failed: ${err}`)));
+                                    .catch(err => logger.error(`Help failed: ${err}`));
             }
 
             if (command === 'emote' && data) {
