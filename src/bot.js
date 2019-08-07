@@ -40,7 +40,7 @@ let initializeBot = () => {
                                                                           \n !f whoami - sends username\
                                                                           \n !f tft Jacob_Hong - sends tft profile " }))
                                     .then(res => logger.info('Help message relayed')
-                                    .catch(err => logger.error(`Help failed: ${err}`));
+                                    .catch(err => logger.error(`Help failed: ${err}`)));
             }
 
             if (command === 'emote' && data) {
@@ -74,18 +74,20 @@ let initializeBot = () => {
                                         .catch(err => logger.error(`Avatar failed to send: ${err}`));
             }
 
-            if(command === 'whoami'){
+            if (command === 'whoami') {
                 logger.info('name command...')
                 // Send the user's username and roles
                 message.channel.send('',
                                     new Discord.RichEmbed({title: "You are: ", description: message.author.username})
                                     .addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
                                     .setColor(message.member.displayHexColor))
+
             }
 
-            if(command === 'tft' && data){
+            if (command === 'tft' && data) {
                 logger.info('tft command...')
                 message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'))
+
             }
         }
     });
