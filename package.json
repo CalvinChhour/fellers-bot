@@ -5,7 +5,6 @@
     "main": "bot.js",
     "author": "Calvin Chhour",
     "dependencies": {
-        "discord.io": "^2.5.3",
         "discord.js": "^11.5.1",
         "winston": "^3.2.1"
     },
