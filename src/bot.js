@@ -56,7 +56,8 @@ let initializeBot = () => {
 				logger.info(`emote id: ${emojiId}`);
 				message.channel.send('', 
 					new Discord.RichEmbed(payload)
-						.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`))
+                        .setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
+                        .setColor(message.member.displayHexColor))
 					.then(res => logger.info(`Emote attached: ${res}`))
 					.catch(err => logger.error(`Emote failed to send: ${err}`));
 			}
