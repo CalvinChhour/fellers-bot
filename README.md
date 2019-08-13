@@ -12,7 +12,7 @@ Make sure you have [node.js](https://nodejs.org/en/) installed
 2) create auth.json in `src` folder. Populate it like so:
 ```
 {
-  'token': {put-token-here}
+  "token": "insert-discord-token-here"
 }
 ```
 > you can grab this token from the [Discord Devloper Portal](https://discordapp.com/developers/applications/) dm Calvin for access.
