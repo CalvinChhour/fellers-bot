@@ -86,8 +86,18 @@ let initializeBot = () => {
 			if (command === 'tft' && data) {
 				logger.info('tft command...');
 				message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
-
-			}
+            }
+            
+            if (command === 'role' && data) {
+                data = data.toLowerCase();
+                logger.info('role command...');
+                message.channel.send('',
+					new Discord.RichEmbed()
+						.addField('Users for ' + data, message.channel.guild.roles
+                                                            .find(roleId => roleId.name.toLowerCase().includes(data))
+                                                            .members.map(users => users).join(', '), true)
+						.setColor(message.member.displayHexColor));
+            }
 		}
 	});
 
