@@ -9,7 +9,7 @@ Run `git clone https://github.com/CalvinChhour/fellers-bot/` to get the project
 Make sure you have [node.js](https://nodejs.org/en/) installed
 
 1) run `npm i`
-2) create auth.json in `src` folder. Your file should look like this:
+2) create config.json in `src` folder. Your file should look like this:
 ```
 {
     "token": <insert discord auth token>,
