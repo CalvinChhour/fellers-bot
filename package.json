@@ -6,6 +6,7 @@
     "author": "Calvin Chhour",
     "dependencies": {
         "discord.js": "^11.5.1",
+        "mongodb": "^3.3.0",
         "winston": "^3.2.1"
     },
     "scripts": {
