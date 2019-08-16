@@ -1,15 +1,15 @@
 const Discord = require('discord.js');
-const auth = require('./auth.json');
+const config = require('./config.json');
 const utils = require('./utils');
 const logger = require('./logger');
-
+const db = require('./mongo');
 
 let initializeBot = () => {    
-	// Initialize Discord Bot
 	const client = new Discord.Client({
 		disableEveryone: true,
 		autorun: true
 	});
+	const db = async () => await db;
 
 	client.on('ready', async () => {
 		logger.info(`${client.user.username} is online!`);
@@ -56,8 +56,8 @@ let initializeBot = () => {
 				logger.info(`emote id: ${emojiId}`);
 				message.channel.send('', 
 					new Discord.RichEmbed(payload)
-                        .setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
-                        .setColor(message.member.displayHexColor))
+						.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
+						.setColor(message.member.displayHexColor))
 					.then(res => logger.info(`Emote attached: ${res}`))
 					.catch(err => logger.error(`Emote failed to send: ${err}`));
 			}
@@ -86,22 +86,22 @@ let initializeBot = () => {
 			if (command === 'tft' && data) {
 				logger.info('tft command...');
 				message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
-            }
+			}
             
-            if (command === 'role' && data) {
-                data = data.toLowerCase();
-                logger.info('role command...');
-                message.channel.send('',
+			if (command === 'role' && data) {
+				data = data.toLowerCase();
+				logger.info('role command...');
+				message.channel.send('',
 					new Discord.RichEmbed()
 						.addField('Users for ' + data, message.channel.guild.roles
-                                                            .find(roleId => roleId.name.toLowerCase().includes(data))
-                                                            .members.map(users => users).join(', '), true)
+							.find(roleId => roleId.name.toLowerCase().includes(data))
+							.members.map(users => users).join(', '), true)
 						.setColor(message.member.displayHexColor));
-            }
+			}
 		}
 	});
 
-	client.login(auth.token);
+	client.login(config.token);
 };
 
 module.exports = {initializeBot};
