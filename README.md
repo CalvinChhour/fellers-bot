@@ -6,7 +6,7 @@ Follow this guide if you are new to Git. https://git-scm.com/book/en/v2/Getting-
 Run `git clone https://github.com/CalvinChhour/fellers-bot/` to get the project
 
 ## build locally
-Make sure you have node.js 
+Make sure you have [node.js](https://nodejs.org/en/) installed
 
 1) run `npm i`
 2) create auth.json in `src` folder. Your file should look like this:
@@ -21,7 +21,6 @@ Make sure you have node.js
             "useUnifiedTopology": true
         }
     }
-}
 
 ```
 > you can grab this token from the [Discord Devloper Portal](https://discordapp.com/developers/applications/) dm Calvin for access.
