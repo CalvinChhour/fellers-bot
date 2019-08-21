@@ -19,8 +19,8 @@ Make sure you have [node.js](https://nodejs.org/en/) installed
         "options": {
             "useNewUrlParser": true,
             "useUnifiedTopology": true
-        }
     }
+}
 
 ```
 > you can grab this token from the [Discord Devloper Portal](https://discordapp.com/developers/applications/) dm Calvin for access.
@@ -28,6 +28,6 @@ Make sure you have [node.js](https://nodejs.org/en/) installed
 3) run `npm run start` and the bot should be up and running.
 
 ## aws
-There is currently an aws ec2 instance that hosts and runs the bot... this is still in development. 
+There is currently an aws ec2 instance that hosts and runs the bot. 
 
 Once ssh'd into the ec2 instance, run `npm run pm2` to start up the fellers bot.
