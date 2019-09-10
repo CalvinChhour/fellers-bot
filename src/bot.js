@@ -3,13 +3,27 @@ const config = require('./config/config');
 const utils = require('./utils');
 const logger = require('./logger');
 const db = require('./mongo');
+const fs = require('fs');
+
+
 
 let initializeBot = async() => {
 	const client = new Discord.Client({
 		disableEveryone: true,
 		autorun: true
 	});
-	const mongo = await db;
+
+	client.commands = new Discord.Collection();
+	const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+
+	for(const file of commandFiles) {
+		const command = require(`./commands/${file}`);
+
+		client.commands.set(command.name, command);
+	}
+
+	const mongoi = await db;
+
 	client.on('ready', async () => {
 		logger.info(`${client.user.username} is online!`);
 		client.user.setActivity('!f help', {type: 'PLAYING'});
@@ -29,16 +43,17 @@ let initializeBot = async() => {
 			const splitMessage = content.split(' ');
 			const command = splitMessage[1];
 			let data = splitMessage[2];
+			
+			if(!client.commands.has(command)) return;
 
-			if (command === 'help') {
-				message.channel.send('',
-					new Discord.RichEmbed({description: '!f :KannaWave: - creates big emote \
-                                                                          \n !f avatar - sends big avatar of user\
-                                                                          \n !f whoami - sends username\
-                                                                          \n !f tft Jacob_Hong - sends tft profile ' }))
-					.then(() => logger.info('Help message relayed'))
-					.catch(err => logger.error(`Help failed: ${err}`));
+			try {
+				client.commands.get(command).execute(message, data);
 			}
+
+			catch (error) {
+				logger.error(error);
+			}
+
 
 			if (command === 'emote' && data) {
 				logger.info('emote command...');
@@ -62,6 +77,7 @@ let initializeBot = async() => {
 			}
 
 			if (command === 'avatar') {
+				/*
 				logger.info('avatar command...');
 				await message.delete();
 				// Send the user's avatar URL
@@ -70,16 +86,19 @@ let initializeBot = async() => {
 						.setImage(message.author.avatarURL))
 					.then(() => logger.info('Avatar sent'))
 					.catch(err => logger.error(`Avatar failed to send: ${err}`));
+					*/
 			}
 
 			if (command === 'whoami') {
+				/*
 				logger.info('name command...');
 				// Send the user's username and roles
 				message.channel.send('',
 					new Discord.RichEmbed({title: 'You are: ', description: message.author.username})
 						.addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
 						.setColor(message.member.displayHexColor));
-
+                */
+				client.commands.get('whoami').execute(message);
 			}
 
 			if (command === 'tft' && data) {
