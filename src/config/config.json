@@ -1,0 +1,11 @@
+{
+    "token" : "NTk4Njg5MDY5OTUzOTc0Mjcy.XXhc8Q.DWnJIJYkfBnuBKTj3WNbPH8r_ZY",
+    "db" :{
+        "uri": insert mongo uri,
+        "table": "test",
+        "options": {
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true
+        }
+    }
+}
