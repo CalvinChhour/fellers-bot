@@ -1,0 +1,11 @@
+{
+    "token": "NTk4Njg5MDY5OTUzOTc0Mjcy.XSagrA.6ssE0i-oU0a1pOoOti9Vksi3Hvs",
+    "db": {
+        "uri": "test.com",
+        "table": "test",
+        "options": {
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true
+        }
+    }
+}

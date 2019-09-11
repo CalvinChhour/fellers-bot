@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('./config.json');
+const config = require('./config/config');
 const utils = require('./utils');
 const logger = require('./logger');
 const db = require('./mongo');
