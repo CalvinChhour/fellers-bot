@@ -22,15 +22,17 @@ inhouse master object
                     Summoner2 - @discordName
                     Summoner3 - @discordName
                     Summoner4 - @discordName
-                    Summoner5 - @discordName
+                    Summoner5 - @discordNames
             -5 min timer?
 
-            *Modifiers*
-            !feller inhouse start 4fun
-                -simply sorts teams into even rank distro's, or randomizes completley
-            !feller inhouse start tryhard
-                -Takes into account ranks and positions
-                    -have fun figuring out how to check positions lol
+            *MODIFIERS*
+                !feller inhouse start 4fun
+                    -simply sorts teams into even rank distro's
+                !feller inhouse start 4funner
+                    -completley random sort
+                Stretch: !feller inhouse start tryhard
+                    -Takes into account ranks and positions
+                        -have fun figuring out how to check positions lol
 
         !feller inhouse join <lol username>
             -look up username in riot api via summoner name: https://developer.riotgames.com/apis#summoner-v4/GET_getBySummonerName
