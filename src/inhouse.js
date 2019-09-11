@@ -5,9 +5,9 @@ class Inhouse
     {
         this.players = [];
 
-        void function addPlayerToInhouse(newPLayerDiscordName) 
+        void function addPlayerToInhouse(newPLayerDiscordName, newPLayerSummonerName) 
         {
-            var newPLayer = new Player(newPLayerDiscordName)
+            var newPLayer = new Player(newPLayerDiscordName, newPLayerSummonerName)
             players.push(newPLayer);
         };
 
@@ -25,21 +25,12 @@ class Inhouse
 class Player 
 {
     //takes a player's discord username, translates to linked summoner id
-    constructor(playerDiscordName) 
+    constructor(playerDiscordName, playerSummonerName) 
     {
         this.discordName = playerDiscordName;
-        this.summonerName = getSummonerName(playerDiscordName);
+        this.summonerName = playerSummonerName
         this.summonerID = getSummonerId(this.summonerName);
         this.rankWeight = calculateRankWeight();
-        
-        //retrieves summoner name from discord name
-        function getSummonerName(discordName) 
-        {
-            var _summonerName;
-            //pull json data
-
-            return _summonerName;
-        }
 
         //retrieves summoner id from summoner name
         function getSummonerId(name)
@@ -146,11 +137,11 @@ class Match
                 //put every other player into the corresponding team
                 if(i % 2 == 0)
                 {
-                    team1.push(players[i].summonerName);
+                    team1.push(players[i]);
                 }
                 else
                 {
-                    team2.push(players[i].summonerName);
+                    team2.push(players[i]);
                 }
             }
         };
