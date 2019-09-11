@@ -1,3 +1,9 @@
+inhouse master object
+    -getLeaderboard
+    -updateLeaderboard
+    -Summoner/player object
+    -match object
+
 !feller inhouse command
     -ping @here?
     -wait for 10 user reactions (11 total, add own reaction. If there's a way to make command sender react automatically use that)
@@ -12,8 +18,8 @@
         -Get rank/tier from that entry in set
         -assign numerical weight value based on tier
             -0 for iron, 10 for bronze, 20 for silver, etc... 80 for master, 90 for gm, 100 for chally
-            -add to that 10-number of tier (e.g. 6 for tier 4)
-            -Example: an iron 3 player would have a weight of 7, a gold 2 would have a weight of 38, a challenger will always have a weight of 109
+            -add to that weight for tier (8 for 1, 6 for 2, etc)
+            -Example: an iron 3 player would have a weight of 4, a gold 2 would have a weight of 6, a challenger will always have a weight of 110
         -sort from highest to lowest on each team, pickinging randomly if theres a tie. Eg highest to team 1, next highest to team 2, and so on.
         -put into chat the two sorted teams
         -tag users who dont have league linked and ask them to?
@@ -24,4 +30,11 @@
         !feller inhouse tryhard
             -Takes into account ranks and positions
                 -have fun figuring out how to check positions lol
+        !feller inhouse update
+            -pulls last custom match from command giving user, updates W/L of all players involved, updates leaderboard. Send notification if new leaderboard
+            -When updating leaderboard, store data as list of dictionaries, sort when new data is added. Can pull best player from start of list, worst from end
+        !feller inhouse leaderboard <optional modifier>
+            -shows players with highest inhouse wins by default, may be modified with cs/kda/etc.
+        !feller inhouse loserboard <optional modifier>
+            -opposite
             
