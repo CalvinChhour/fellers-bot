@@ -1,7 +1,7 @@
 {
-    "token": "NTk4Njg5MDY5OTUzOTc0Mjcy.XSagrA.6ssE0i-oU0a1pOoOti9Vksi3Hvs",
+    "token": "{insert-discord-auth-token}",
     "db": {
-        "uri": "test.com",
+        "uri": "{insert-mongo-uri}",
         "table": "test",
         "options": {
             "useNewUrlParser": true,
