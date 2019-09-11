@@ -4,16 +4,36 @@ class Inhouse
     constructor() 
     {
         this.players = [];
-
-        void function addPlayerToInhouse(newPLayerDiscordName, newPLayerSummonerName) 
-        {
-            var newPLayer = new Player(newPLayerDiscordName, newPLayerSummonerName)
-            players.push(newPLayer);
-        };
-
-        this.currentMatch = new Match(this.players);
+        this.currentMatch = null;
     }
 
+    addPlayerToInhouse(newPLayerDiscordName, newPLayerSummonerName) 
+    {
+        var newPLayer = new Player(newPLayerDiscordName, newPLayerSummonerName)
+        //if the summoner name could not be found, return -1 to let the bot know
+        if(newPLayer.summonerID === -1)
+        {
+            return -1;
+        }
+        
+        //otherwise stick the new player into our list
+        players.push(newPLayer);
+
+        //if we've got 10 players, great, start the match
+        if(this.players.length === 10 && this.currentMatch === null)
+        {
+            this.CreateMatch();
+            //return 0 to let our bot know to stop accepting joins
+            return 0;
+        }
+
+        return 1;
+    }
+
+    CreateMatch()
+    {
+        this.currentMatch = new Match(this.players);
+    }
     // UpdateMatch()
     // {
 
@@ -30,15 +50,30 @@ class Player
         this.discordName = playerDiscordName;
         this.summonerName = playerSummonerName
         this.summonerID = getSummonerId(this.summonerName);
-        this.rankWeight = calculateRankWeight();
+        //only try to pull more data if we succesfully pulled the ID
+        if(this.summonerID !== -1)
+        {
+            this.rankWeight = calculateRankWeight(this.summonerID);
+        }
 
         //retrieves summoner id from summoner name
         function getSummonerId(name)
         {
             var _summonerId;
-            //pull json data
+            //track response code from server, if nonzero, error was thrown
+            var responseCode = 0;
+            //PULL/PARSE JSON DATA HERE
 
-            return _summonerId;
+
+            if(responseCode !== 0)
+            {
+                //can send specific errors here if need be
+                return -1;
+            }
+            else
+            {
+                return _summonerId;
+            }
         }
 
         //calculates the weight of the player's rank from their id
@@ -113,8 +148,6 @@ class Match
     //takes a list of player objects
     constructor(players)
     {
-        var playerDict = {};
-
         if(players.length != 10)
         {
             //TODO: better error handle
