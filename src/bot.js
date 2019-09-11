@@ -31,137 +31,62 @@ let initializeBot = () => {
 			const command = splitMessage[1];
 			let data = splitMessage[2];
 			
-			switch(command)
-			{
-				case 'help':
-					message.channel.send('', 
+			if (command === 'help') {
+				message.channel.send('', 
 					new Discord.RichEmbed({description: '!f :KannaWave: - creates big emote \
-																			\n !f avatar - sends big avatar of user\
-																			\n !f whoami - sends username\
-																			\n !f tft Jacob_Hong - sends tft profile ' }))
+                                                                          \n !f avatar - sends big avatar of user\
+                                                                          \n !f whoami - sends username\
+                                                                          \n !f tft Jacob_Hong - sends tft profile ' }))
 					.then(() => logger.info('Help message relayed'))
 					.catch(err => logger.error(`Help failed: ${err}`));
-					break;
-				case 'emote':
-					if(data)
-					{
-						logger.info('emote command...');
-						await message.delete();
-						let fileType; 
-						if (data.charAt(1) === 'a') {
-							fileType = '.gif';
-							data = data.replace('a', '');
-						} else {
-							fileType = '.png';
-						}
-						
-						const emojiId = utils.parseEmojiText(data);
-						logger.info(`emote id: ${emojiId}`);
-						message.channel.send('', 
-							new Discord.RichEmbed(payload)
-								.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
-								.setColor(message.member.displayHexColor))
-							.then(res => logger.info(`Emote attached: ${res}`))
-							.catch(err => logger.error(`Emote failed to send: ${err}`));
-					}
-					break;
-				case 'avatar':
-					logger.info('avatar command...');
-					await message.delete();
-					// Send the user's avatar URL
-					message.channel.send('',
-						new Discord.RichEmbed(payload)
-							.setImage(message.author.avatarURL))
-						.then(() => logger.info('Avatar sent'))
-						.catch(err => logger.error(`Avatar failed to send: ${err}`));
-					break;
-				case 'whoami':
-					logger.info('name command...');
-					// Send the user's username and roles
-					message.channel.send('',
-						new Discord.RichEmbed({title: 'You are: ', description: message.author.username})
-							.addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
-							.setColor(message.member.displayHexColor));
-		
-					break;
-				case 'tft':
-					if(data)
-					{
-						logger.info('tft command...');
-						message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
-					}
-					break;
-				default:
-					message.channel.send('', 
-					new Discord.RichEmbed({description: 'Command Unrecognized! \n \
-																			!f :KannaWave: - creates big emote \
-																			\n !f avatar - sends big avatar of user\
-																			\n !f whoami - sends username\
-																			\n !f tft Jacob_Hong - sends tft profile ' }))
-					.then(() => logger.info('Help message relayed'))
-					.catch(err => logger.error(`Help failed: ${err}`));
-					break;
+			}
+
+			if (command === 'emote' && data) {
+				logger.info('emote command...');
+				await message.delete();
+				let fileType; 
+				if (data.charAt(1) === 'a') {
+					fileType = '.gif';
+					data = data.replace('a', '');
+				} else {
+					fileType = '.png';
+				}
+                
+				const emojiId = utils.parseEmojiText(data);
+				logger.info(`emote id: ${emojiId}`);
+				message.channel.send('', 
+					new Discord.RichEmbed(payload)
+						.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
+						.setColor(message.member.displayHexColor))
+					.then(res => logger.info(`Emote attached: ${res}`))
+					.catch(err => logger.error(`Emote failed to send: ${err}`));
+			}
+
+			if (command === 'avatar') {
+				logger.info('avatar command...');
+				await message.delete();
+				// Send the user's avatar URL
+				message.channel.send('',
+					new Discord.RichEmbed(payload)
+						.setImage(message.author.avatarURL))
+					.then(() => logger.info('Avatar sent'))
+					.catch(err => logger.error(`Avatar failed to send: ${err}`));
+			}
+
+			if (command === 'whoami') {
+				logger.info('name command...');
+				// Send the user's username and roles
+				message.channel.send('',
+					new Discord.RichEmbed({title: 'You are: ', description: message.author.username})
+						.addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
+						.setColor(message.member.displayHexColor));
 
 			}
 
-
-
-			// if (command === 'help') {
-			// 	message.channel.send('', 
-			// 		new Discord.RichEmbed({description: '!f :KannaWave: - creates big emote \
-            //                                                               \n !f avatar - sends big avatar of user\
-            //                                                               \n !f whoami - sends username\
-            //                                                               \n !f tft Jacob_Hong - sends tft profile ' }))
-			// 		.then(() => logger.info('Help message relayed'))
-			// 		.catch(err => logger.error(`Help failed: ${err}`));
-			// }
-
-			// if (command === 'emote' && data) {
-			// 	logger.info('emote command...');
-			// 	await message.delete();
-			// 	let fileType; 
-			// 	if (data.charAt(1) === 'a') {
-			// 		fileType = '.gif';
-			// 		data = data.replace('a', '');
-			// 	} else {
-			// 		fileType = '.png';
-			// 	}
-                
-			// 	const emojiId = utils.parseEmojiText(data);
-			// 	logger.info(`emote id: ${emojiId}`);
-			// 	message.channel.send('', 
-			// 		new Discord.RichEmbed(payload)
-			// 			.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
-			// 			.setColor(message.member.displayHexColor))
-			// 		.then(res => logger.info(`Emote attached: ${res}`))
-			// 		.catch(err => logger.error(`Emote failed to send: ${err}`));
-			// }
-
-			// if (command === 'avatar') {
-			// 	logger.info('avatar command...');
-			// 	await message.delete();
-			// 	// Send the user's avatar URL
-			// 	message.channel.send('',
-			// 		new Discord.RichEmbed(payload)
-			// 			.setImage(message.author.avatarURL))
-			// 		.then(() => logger.info('Avatar sent'))
-			// 		.catch(err => logger.error(`Avatar failed to send: ${err}`));
-			// }
-
-			// if (command === 'whoami') {
-			// 	logger.info('name command...');
-			// 	// Send the user's username and roles
-			// 	message.channel.send('',
-			// 		new Discord.RichEmbed({title: 'You are: ', description: message.author.username})
-			// 			.addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
-			// 			.setColor(message.member.displayHexColor));
-
-			// }
-
-			// if (command === 'tft' && data) {
-			// 	logger.info('tft command...');
-			// 	message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
-			// }
+			if (command === 'tft' && data) {
+				logger.info('tft command...');
+				message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
+			}
 		}
 	});
 
