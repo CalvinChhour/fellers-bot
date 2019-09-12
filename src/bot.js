@@ -91,26 +91,12 @@ let initializeBot = async() => {
 
 			if (command === 'store' && data) {		
 				logger.info('store command...');
-
+				//Stores a key along with some data for retrieval by the retrieve command.
 				const StoreCommand = splitMessage[2];
-				logger.info(StoreCommand);
-
-				//creates empty string to be added to
-				let RetrieveCommand = '';
-
-				//adds to the empty string each string after the command used for calling
-				var i;
-				for(i = 3; i < splitMessage.length; i++){
-					RetrieveCommand += splitMessage[i] + ' ';
-				}
-				logger.info(RetrieveCommand);
-				//Stores the Command and it's contained data into the "Store" db
+				const RetrieveCommand = splitMessage.slice(3).join(' ');
 				try {
-					logger.info(mongo);
 					const data = await mongo.collection('Store').findOne({_id: StoreCommand});
-					logger.info(mongo.collection('Store').findOne({_id: StoreCommand}));
 					if(!data){
-						//is this correct?
 						await mongo.collection('Store').insertOne({_id: StoreCommand, RetrievedData: RetrieveCommand});
 						logger.info('Commmand and command data inserted');
 					}
@@ -122,11 +108,10 @@ let initializeBot = async() => {
 					logger.error(err);					
 				}	
 			}
-			if (command === 'retrieve' && data){				
+			if (command === 'retrieve' && data) {		
+				//Retrieves data from an input key created through the store command.		
 				const retrieved = await mongo.collection('Store').findOne({_id: data.trim()});
 				Object.values(retrieved).forEach(e => logger.info(e));
-				logger.info(retrieved);
-				logger.info(data);
 				if(!retrieved){
 					message.channel.send('',
 						new Discord.RichEmbed({description: 'This command does not exist'}));
