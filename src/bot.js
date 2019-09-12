@@ -109,7 +109,6 @@ let initializeBot = async() => {
 			}
 			if (command === 'retrieve' && data) {
 				const retrieved = await mongo.collection('Store').findOne({_id: data.trim()});
-				Object.values(retrieved).forEach(e => logger.info(e));
 				if (!retrieved) {
 					message.channel.send('',
 						new Discord.RichEmbed({description: 'This command does not exist'}));
