@@ -91,16 +91,15 @@ let initializeBot = async() => {
 
 			if (command === 'store' && data) {
 				logger.info('store command...');
-				//Stores a key along with some data for retrieval by the retrieve command.
 				const StoreCommand = splitMessage[2];
 				const RetrieveCommand = splitMessage.slice(3).join(' ');
 				try {
 					const data = await mongo.collection('Store').findOne({_id: StoreCommand});
-					if(!data){
+					if (!data) {
 						await mongo.collection('Store').insertOne({_id: StoreCommand, RetrievedData: RetrieveCommand});
 						logger.info('Commmand and command data inserted');
 					}
-					else{
+					else {
 						await mongo.collection('Store').replaceOne({_id: StoreCommand}, {_id: StoreCommand, RetrievedData: RetrieveCommand});
 						logger.info('Old commands data replaced with the new commands data.');
 					}
@@ -109,14 +108,13 @@ let initializeBot = async() => {
 				}
 			}
 			if (command === 'retrieve' && data) {
-				//Retrieves data from an input key created through the store command.
 				const retrieved = await mongo.collection('Store').findOne({_id: data.trim()});
 				Object.values(retrieved).forEach(e => logger.info(e));
-				if(!retrieved){
+				if (!retrieved) {
 					message.channel.send('',
 						new Discord.RichEmbed({description: 'This command does not exist'}));
 				}
-				else{
+				else {
 					message.channel.send('',
 						new Discord.RichEmbed({description: retrieved.RetrievedData}));
 				}
