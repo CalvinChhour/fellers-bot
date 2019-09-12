@@ -11,6 +11,7 @@
     },
     "scripts": {
         "lint": "eslint src/",
+        "lint-fix": "eslint src/ --fix",
         "pm2": "pm2 start index.js",
         "start": "node index.js"
     },

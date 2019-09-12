@@ -4,13 +4,12 @@ const utils = require('./utils');
 const logger = require('./logger');
 const db = require('./mongo');
 
-let initializeBot = () => {    
+let initializeBot = async() => {    
 	const client = new Discord.Client({
 		disableEveryone: true,
 		autorun: true
 	});
-	const db = async () => await db;
-
+	const mongo = await db;
 	client.on('ready', async () => {
 		logger.info(`${client.user.username} is online!`);
 		client.user.setActivity('!f help', {type: 'PLAYING'});
@@ -86,6 +85,56 @@ let initializeBot = () => {
 			if (command === 'tft' && data) {
 				logger.info('tft command...');
 				message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
+			}
+
+
+
+			if (command === 'store' && data) {		
+				logger.info('store command...');
+
+				const StoreCommand = splitMessage[2];
+				logger.info(StoreCommand);
+
+				//creates empty string to be added to
+				let RetrieveCommand = '';
+
+				//adds to the empty string each string after the command used for calling
+				var i;
+				for(i = 3; i < splitMessage.length; i++){
+					RetrieveCommand += splitMessage[i] + ' ';
+				}
+				logger.info(RetrieveCommand);
+				//Stores the Command and it's contained data into the "Store" db
+				try {
+					logger.info(mongo);
+					const data = await mongo.collection('Store').findOne({_id: StoreCommand});
+					logger.info(mongo.collection('Store').findOne({_id: StoreCommand}));
+					if(!data){
+						//is this correct?
+						await mongo.collection('Store').insertOne({_id: StoreCommand, RetrievedData: RetrieveCommand});
+						logger.info('Commmand and command data inserted');
+					}
+					else{
+						await mongo.collection('Store').replaceOne({_id: StoreCommand}, {_id: StoreCommand, RetrievedData: RetrieveCommand});
+						logger.info('Old command\'s data replaced with the new commands data.');
+					}								
+				} catch (err) {
+					logger.error(err);					
+				}	
+			}
+			if (command === 'retrieve' && data){				
+				const retrieved = await mongo.collection('Store').findOne({_id: data.trim()});
+				Object.values(retrieved).forEach(e => logger.info(e));
+				logger.info(retrieved);
+				logger.info(data);
+				if(!retrieved){
+					message.channel.send('',
+						new Discord.RichEmbed({description: 'This command does not exist'}));
+				}
+				else{
+					message.channel.send('',
+						new Discord.RichEmbed({description: retrieved.RetrievedData}));
+				}							
 			}
 		}
 	});
