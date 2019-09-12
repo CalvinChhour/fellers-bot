@@ -90,40 +90,50 @@ let initializeBot = () => {
 				message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
 			}
 
-			if (command === 'inhouse' && data ) {
-				//TODO: check that an inhouse is not currently trying to be made, or allow multiple
-				//ask calvin about how exactly this works, need to make sure it persists. will not work currently
-				let currentInhouse = null;
-				switch(data) {
-					case 'start':
-						//TODO: add modifiers once implemented
-						message.channel.send('@here <user> wants to start an inhouse! Type \'!feller inhouse join <*Your League Username*> to join!\'');
-						//make a new inhouse object
-						currentInhouse = new Inhouse();
-						break;
-					case 'join':
-						if(currentInhouse === null) {
-							message.channel.send('Please start an inhouse first!');
-						} else if (modifier) {
-							let joinReturnCode = currentInhouse.addPlayerToInhouse(message.author.username, modifier);
-							if(joinReturnCode === -1) {
-								message.channel.send('That username was not recognized, please double check your spelling or any special characters and try again');
-							} 
-							if(joinReturnCode === 0) {
-								message.channel.send('Inhouse is full! Creating teams...');
-								if(currentInhouse.currentMatch !== null) {
-									message.channel.send('',
-										new Discord.RichEmbed({title: 'Lineups:'})
-											.addField('Team 1:', currentInhouse.currentMatch.team1.join('\n'), true)
-											.addField('Team 2:', currentInhouse.currentMatch.team2.join('\n'), true)
-									);
-								}
-							}
-						} else {
-							message.channel.send('Please include your League of Legends summoner name like so: !f inhouse join <summoner name>');
-						}
-						break;
-				}
+			// if (command === 'inhouse' && data ) {
+			// 	//TODO: check that an inhouse is not currently trying to be made, or allow multiple
+			// 	//ask calvin about how exactly this works, need to make sure it persists. will not work currently
+			// 	let currentInhouse = null;
+			// 	switch(data) {
+			// 		case 'start':
+			// 			//TODO: add modifiers once implemented
+			// 			message.channel.send('@here <user> wants to start an inhouse! Type \'!feller inhouse join <*Your League Username*> to join!\'');
+			// 			//make a new inhouse object
+			// 			currentInhouse = new Inhouse();
+			// 			break;
+			// 		case 'join':
+			// 			if(currentInhouse === null) {
+			// 				message.channel.send('Please start an inhouse first!');
+			// 			} else if (modifier) {
+			// 				let joinReturnCode = currentInhouse.addPlayerToInhouse(message.author.username, modifier);
+			// 				if(joinReturnCode === -1) {
+			// 					message.channel.send('That username was not recognized, please double check your spelling or any special characters and try again');
+			// 				} 
+			// 				if(joinReturnCode === 0) {
+			// 					message.channel.send('Inhouse is full! Creating teams...');
+			// 					if(currentInhouse.currentMatch !== null) {
+			// 						message.channel.send('',
+			// 							new Discord.RichEmbed({title: 'Lineups:'})
+			// 								.addField('Team 1:', currentInhouse.currentMatch.team1.join('\n'), true)
+			// 								.addField('Team 2:', currentInhouse.currentMatch.team2.join('\n'), true)
+			// 						);
+			// 					}
+			// 				}
+			// 			} else {
+			// 				message.channel.send('Please include your League of Legends summoner name like so: !f inhouse join <summoner name>');
+			// 			}
+			// 			break;
+			// 	}
+			// }
+
+			if (command === 'doubt') {
+				logger.info('doubt command...');
+				await message.delete();
+				message.channel.send('', new Discord.RichEmbed(payload)
+					.setImage(`https://i.kym-cdn.com/photos/images/original/001/354/591/17c.png`)
+					.setColor(message.member.displayHexColor))
+				.then(res => logger.info(`Doubt attached: ${res}`))
+				.catch(err => logger.error(`Doubt failed to send: ${err}`));
 			}
 		}
 	});
