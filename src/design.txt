@@ -4,6 +4,12 @@ inhouse master object
     -Summoner/player object
     -match object
 
+Database redesign quick notes:
+    store just an array of players in the database and add to it as ppl join
+    can have multiple for different guilds
+    map each to the guild namemight be able to stick with objects we'll GET_getBySummonerName
+
+
     Command list:
         !feller inhouse start <modifier>
             -send message "@here <user> wants to start an inhouse! Type '!feller inhouse join <*Your League Username*> to join!'"
