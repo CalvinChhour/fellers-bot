@@ -12,12 +12,8 @@
     "scripts": {
         "lint": "eslint src/",
         "pm2": "pm2 start index.js",
-<<<<<<< HEAD
         "start": "node index.js",
         "dev": "nodemon index.js"
-=======
-        "start": "nodemon index.js"
->>>>>>> 98e512a334756c7451ba999340be90a43cd3e69f
     },
     "devDependencies": {
         "eslint": "^6.1.0",
