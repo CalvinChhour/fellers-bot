@@ -4,6 +4,11 @@ const utils = require('./utils');
 const logger = require('./logger');
 const db = require('./mongo');
 const fs = require('fs');
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 98e512a334756c7451ba999340be90a43cd3e69f
 
 
 
@@ -22,7 +27,11 @@ let initializeBot = async() => {
 		client.commands.set(command.name, command);
 	}
 
+<<<<<<< HEAD
 	const mongoi = await db;
+=======
+	const db = async () => await db;
+>>>>>>> 98e512a334756c7451ba999340be90a43cd3e69f
 
 	client.on('ready', async () => {
 		logger.info(`${client.user.username} is online!`);
@@ -106,6 +115,7 @@ let initializeBot = async() => {
 				message.channel.send(('https://tracker.gg/tft/profile/riot/NA/'+data+'/overview'));
 			}
 
+<<<<<<< HEAD
 
 
 			if (command === 'store' && data) {
@@ -136,6 +146,10 @@ let initializeBot = async() => {
 					message.channel.send('',
 						new Discord.RichEmbed({description: retrieved.RetrievedData}));
 				}
+=======
+			if(command === 'ping') {
+				client.commands.get('ping').execute(message, data);
+>>>>>>> 98e512a334756c7451ba999340be90a43cd3e69f
 			}
 		}
 	});
