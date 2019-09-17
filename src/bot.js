@@ -44,7 +44,7 @@ let initializeBot = async() => {
 			let data = splitMessage.slice(2);
 			
 			if(!client.commands.has(command)) {
-				logger.info(`Command ${command} has not been found returning!`);
+				logger.debug(`Command ${command} has not been found returning!`);
 				return;
 			}
 			try {

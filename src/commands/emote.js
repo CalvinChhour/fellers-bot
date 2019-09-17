@@ -11,14 +11,14 @@ module.exports = {
 		async execute(message, data) {
 			logger.info('emote command...');
 			let fileType;
-			if (data.charAt(1) === 'a') {
+			if (data[0].charAt(1) === 'a') {
 				fileType = '.gif';
-				data = data.replace('a', '');
+				data[0] = data[0].replace('a', '');
 			} else {
 				fileType = '.png';
 			}
 
-			const emojiId = utils.parseEmojiText(data);
+			const emojiId = utils.parseEmojiText(data[0]);
 			logger.info(`emote id: ${emojiId}`);
 			message.channel.send('',
 				new Discord.RichEmbed(data)
