@@ -3,7 +3,7 @@ const config = require('./config.json');
 const utils = require('./utils');
 const logger = require('./logger');
 const db = require('./mongo');
-const inhouse = require('./inhouse');
+const Inhouse = require('./inhouse');
 
 let initializeBot = () => {    
 	const client = new Discord.Client({
@@ -23,6 +23,7 @@ let initializeBot = () => {
 	});
 
 	var currentInhouse;
+	var inhouseMessageID;
 
 	// Create an event listener for messages
 	client.on('message', async (message) => {
@@ -32,7 +33,21 @@ let initializeBot = () => {
 			const splitMessage = content.split(' ');
 			const command = splitMessage[1];
 			let data = splitMessage[2];
-			let modifier = splitMessage[3];
+
+			//TODO: make me less gross
+			let modifier = '';
+			if(splitMessage.length > 3)
+			{
+				let i = 3;
+				for(i; i< splitMessage.length; i++)
+				{
+					if(i !== splitMessage.length -1) {
+					modifier += splitMessage[i] + ' ';
+					} else {
+						modifier += splitMessage[i];
+					}
+				}
+			}
 			
 			if (command === 'help') {
 				message.channel.send('', 
@@ -93,36 +108,77 @@ let initializeBot = () => {
 
 			if (command === 'inhouse' && data ) {
 				switch(data) {
+					case 'clear':
+						currentInhouse = null;
+						break;
 					case 'start':
-						//TODO: add modifiers once implemented
 						if(currentInhouse == null) {
-							message.channel.send(message.author.username + ' wants to start an inhouse! Type \"!feller inhouse join <*Your League Username*>\" to join!');
-							currentInhouse = new Inhouse();
+							let inhouseType = '';
+							if(modifier === '4fun') {
+								inhouseType = '4fun';
+							} else {
+								inhouseType = 'tryhard';
+							}
+							message.channel.send(message.author.username + ' wants to start a ' + inhouseType + ' inhouse! Type \"!f inhouse join <*Your League Username*>\" to join!');
+							currentInhouse = new Inhouse(modifier);
+							logger.info('New ' + inhouseType + ' Inhouse created');
 						} else {
-							message.channel.send('Inhouse already exists');
+							message.channel.send('An Inhouse already exists, please use \"!f inhouse clear\" if you wish to create a new one');
 						}
 						break;
 					case 'join':
 						if(currentInhouse == null) {
 							message.channel.send('Please start an inhouse first!');
 						} else if (modifier) {
-							let joinReturnCode = currentInhouse.addPlayerToInhouse(message.author.username, modifier);
-							if(joinReturnCode === -1) {
-								message.channel.send('That username was not recognized, please double check your spelling or any special characters and try again');
-							} 
-							if(joinReturnCode === 0) {
-								message.channel.send('Inhouse is full! Creating teams...');
-								if(currentInhouse.currentMatch !== null) {
-									message.channel.send('',
-										new Discord.RichEmbed({title: 'Lineups:'})
-											.addField('Team 1:', currentInhouse.currentMatch.team1.join('\n'), true)
-											.addField('Team 2:', currentInhouse.currentMatch.team2.join('\n'), true)
-									);
+							currentInhouse.addPlayerToInhouse(message.author.username, modifier).then(respone => {
+								let joinReturnCode = respone;
+								if(joinReturnCode === -1) {
+									message.channel.send('That username was not recognized, please double check your spelling or any special characters and try again');
+								} 
+								if(joinReturnCode === 0) {
+									message.delete();
+									message.channel.send('Inhouse is full! Creating teams...');
+									team1Names = [];
+									team2Names = [];
+									currentInhouse.currentMatch.team1.forEach(element => {
+										team1Names.push(element.summonerName);
+									});
+									currentInhouse.currentMatch.team2.forEach(element => {
+										team2Names.push(element.summonerName);
+									});
+									if(currentInhouse.currentMatch !== null) {
+										let desc = ((currentInhouse.type === '4fun')?'Sorted randomly':'Sorted by Soloqueue Rank');
+										message.channel.send('',
+											new Discord.RichEmbed({title: 'Lineups: ', description: desc})
+											.addField('Team 1:', team1Names.join('\n'), true)
+											.addField('Team 2:', team2Names.join('\n')), true);
+									}
+									logger.info('Inhouse full, created teams');
 								}
-							}
-							if(joinReturnCode === 1) {
-								message.channel.send(message.author.username + ' joined!');
-							}
+								if(joinReturnCode === 1) {	
+									let joinedNames = [];
+									currentInhouse.players.forEach(element => {
+										joinedNames.push(element.summonerName);
+									});
+
+									if(inhouseMessageID == null) {
+										message.delete();
+										message.channel.send('',
+												new Discord.RichEmbed({title: 'Current Players:'})
+													.addField(joinedNames.join(', '), false)
+										).then(respone => {
+											inhouseMessageID = respone.id;
+										});
+									} else {
+										message.delete();
+										message.channel.fetchMessage(inhouseMessageID)
+										.then(message => message.edit('',
+										new Discord.RichEmbed({title: 'Current Players:'})
+											.addField(joinedNames.join(', '), false)));
+									}
+									logger.info('Player joined an inhouse');
+								}
+							});
 						} else {
 							message.channel.send('Please include your League of Legends summoner name like so: !f inhouse join <summoner name>');
 						}
