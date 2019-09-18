@@ -26,9 +26,10 @@ Make sure you have [node.js](https://nodejs.org/en/) installed
 ```
 Fill in the discord auth token and mongo uri
 > you can grab this token from the [Discord Devloper Portal](https://discordapp.com/developers/applications/) dm one of the devs for the discord auth token.
-> also dm calvin for mogno uri.
+> also dm calvin for mongo uri.
 
 3) run `npm run start` and the bot should be up and running.
+![Prompt](https://i.imgur.com/jYM3mHg.png)
 
 ## aws
 There is currently an aws ec2 instance that hosts and runs the bot. 
