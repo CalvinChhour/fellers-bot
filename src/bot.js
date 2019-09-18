@@ -34,6 +34,7 @@ let initializeBot = async() => {
 	});
 
 	var currentInhouse;
+	var inhouseMessageID;
 
 	// Create an event listener for messages
 	client.on('message', async (message) => {

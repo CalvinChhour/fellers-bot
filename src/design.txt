@@ -4,14 +4,8 @@ inhouse master object
     -Summoner/player object
     -match object
 
-Database redesign quick notes:
-    store just an array of players in the database and add to it as ppl join
-    can have multiple for different guilds
-    map each to the guild namemight be able to stick with objects we'll GET_getBySummonerName
-
-
     Command list:
-        !feller inhouse start <modifier>
+        DONE !feller inhouse start <modifier>
             -send message "@here <user> wants to start an inhouse! Type '!feller inhouse join <*Your League Username*> to join!'"
             -wait for 10 feller join commands                      
             -once 10 players have joined, sort from highest to lowest on each team, pickinging randomly if theres a tie. Eg highest to team 1, next highest to team 2, and so on.
@@ -32,15 +26,12 @@ Database redesign quick notes:
             -5 min timer?
 
             *MODIFIERS*
-                !feller inhouse start 4fun
-                    -simply sorts teams into even rank distro's
-                !feller inhouse start 4funner
+                DONE !feller inhouse start 4fun
                     -completley random sort
-                Stretch: !feller inhouse start tryhard
-                    -Takes into account ranks and positions
-                        -have fun figuring out how to check positions lol
+                DONE !feller inhouse start tryhard
+                    -Takes into account ranks
 
-        !feller inhouse join <lol username>
+        DONE !feller inhouse join <lol username>
             -look up username in riot api via summoner name: https://developer.riotgames.com/apis#summoner-v4/GET_getBySummonerName
             -grab accountID from that
             -look up rank via accountID: https://developer.riotgames.com/apis#league-v4/GET_getLeagueEntriesForSummoner
@@ -53,6 +44,14 @@ Database redesign quick notes:
     
         !feller inhouse update
             -pulls last custom match from command giving user, updates W/L of all players involved, updates leaderboard. Send notification if new leaderboard
+                -To pull custom games: /lol/match/v4/matchlists/by-account/{encryptedAccountId}?queue=0?api_key={api key}
+                    -need to grab accountID (NOT summoner id) from one player, can do so easily bu just grabbing first player from
+                    inhouse player array and searching by account id:
+                        -/lol/summoner/v4/summoners/{encryptedSummonerId} and then pulling accountId field
+                -From that custom game, pull the matchID of the most recent custom game
+                -look up match via id: /lol/match/v4/matches/{matchId}
+                -pull participants array and then can pull individual data for each player.
+                    - has 'win' bool
             -When updating leaderboard, store data as list of dictionaries, sort when new data is added. Can pull best player from start of list, worst from end
 
         !feller inhouse leaderboard <optional modifier>
