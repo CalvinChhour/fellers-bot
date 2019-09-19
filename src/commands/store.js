@@ -1,15 +1,12 @@
-const Discord = require('discord.js');
 const logger = require('./../logger');
-const db = require('./../mongo');
 
 module.exports = {
 	store : {
 		name : 'store',
 		args : true,
 		description : 'Store things for the bot to say again I suppose',
-		async execute(message, data) {
+		execute: async (message, data, mongo) => {
 
-			const mongo = await db;
 			logger.info('store command...');
 			const StoreCommand = data[0];
 			const RetrieveCommand = data.slice(1).join(' ');

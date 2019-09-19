@@ -1,4 +1,3 @@
-
 const Discord = require ('discord.js');
 const logger = require('./../logger');
 const utils = require('./../utils');
@@ -8,7 +7,7 @@ module.exports = {
 		name : 'emote',
 		args : true,
 		description : 'Sends a bigger version of an emote',
-		async execute(message, data) {
+		execute: async(message, data) => {
 			logger.info('emote command...');
 			let fileType;
 			if (data[0].charAt(1) === 'a') {

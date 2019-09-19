@@ -5,7 +5,7 @@ module.exports = {
 		name : 'whoami',
 		args : false,
 		description : 'Send the user\'s username roles',
-		execute(message, data) {
+		execute: (message) => {
 			message.channel.send('',
 				new Discord.RichEmbed({title: 'You are: ', descripton: message.author.username})
 					.addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)

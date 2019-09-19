@@ -6,8 +6,8 @@ module.exports = {
 		name : 'help',
 		args : false,
 		description : 'Command to call for help from the Discord bot',
-		execute(message, data) {
-			message.channel.send('', 
+		execute: (message) => {
+			message.channel.send('',
 				new Discord.RichEmbed({description: '!f :KannaWave: - creates big emote \
                                                                           \n !f avatar - sends big avatar of user\
                                                                           \n !f whoami - sends username\
