@@ -33,8 +33,9 @@ let initializeBot = async() => {
 		logger.info(user.username + ' - (' + user.id + ')');
 	});
 
-	var currentInhouse;
-	var inhouseMessageID;
+	//var currentInhouse;
+	var serverInhouses = {};
+	var serverInhouseMessageIDs = {};
 
 	// Create an event listener for messages
 	client.on('message', async (message) => {
