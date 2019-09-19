@@ -22,8 +22,9 @@ let initializeBot = () => {
 		logger.info(user.username + ' - (' + user.id + ')');
 	});
 
-	var currentInhouse;
-	var inhouseMessageID;
+	//var currentInhouse;
+	var serverInhouses = {};
+	var serverInhouseMessageIDs = {};
 
 	// Create an event listener for messages
 	client.on('message', async (message) => {
@@ -109,10 +110,10 @@ let initializeBot = () => {
 			if (command === 'inhouse' && data ) {
 				switch(data) {
 					case 'clear':
-						currentInhouse = null;
+						serverInhouses.remove(message.guild.name);
 						break;
 					case 'start':
-						if(currentInhouse == null) {
+						if(!(message.guild.name in serverInhouses)) {
 							let inhouseType = '';
 							if(modifier === '4fun') {
 								inhouseType = '4fun';
@@ -120,17 +121,17 @@ let initializeBot = () => {
 								inhouseType = 'tryhard';
 							}
 							message.channel.send(message.author.username + ' wants to start a ' + inhouseType + ' inhouse! Type \"!f inhouse join <*Your League Username*>\" to join!');
-							currentInhouse = new Inhouse(modifier);
+							serverInhouses[message.guild.name] = new Inhouse(inhouseType);
 							logger.info('New ' + inhouseType + ' Inhouse created');
 						} else {
-							message.channel.send('An Inhouse already exists, please use \"!f inhouse clear\" if you wish to create a new one');
+							message.channel.send('An Inhouse already exists for this server, please use \"!f inhouse clear\" if you wish to create a new one');
 						}
 						break;
 					case 'join':
-						if(currentInhouse == null) {
+						if(!(message.guild.name in serverInhouses)) {
 							message.channel.send('Please start an inhouse first!');
 						} else if (modifier) {
-							currentInhouse.addPlayerToInhouse(message.author.username, modifier).then(respone => {
+							serverInhouses[message.guild.name].addPlayerToInhouse(message.author.username, modifier).then(respone => {
 								let joinReturnCode = respone;
 								if(joinReturnCode === -1) {
 									message.channel.send('That username was not recognized, please double check your spelling or any special characters and try again');
@@ -140,14 +141,14 @@ let initializeBot = () => {
 									message.channel.send('Inhouse is full! Creating teams...');
 									team1Names = [];
 									team2Names = [];
-									currentInhouse.currentMatch.team1.forEach(element => {
+									serverInhouses[message.guild.name].currentMatch.team1.forEach(element => {
 										team1Names.push(element.summonerName);
 									});
-									currentInhouse.currentMatch.team2.forEach(element => {
+									serverInhouses[message.guild.name].currentMatch.team2.forEach(element => {
 										team2Names.push(element.summonerName);
 									});
-									if(currentInhouse.currentMatch !== null) {
-										let desc = ((currentInhouse.type === '4fun')?'Sorted randomly':'Sorted by Soloqueue Rank');
+									if(serverInhouses[message.guild.name].currentMatch !== null) {
+										let desc = ((serverInhouses[message.guild.name].type === '4fun')?'Sorted randomly':'Sorted by Soloqueue Rank');
 										message.channel.send('',
 											new Discord.RichEmbed({title: 'Lineups: ', description: desc})
 											.addField('Team 1:', team1Names.join('\n'), true)
@@ -157,21 +158,21 @@ let initializeBot = () => {
 								}
 								if(joinReturnCode === 1) {	
 									let joinedNames = [];
-									currentInhouse.players.forEach(element => {
+									serverInhouses[message.guild.name].players.forEach(element => {
 										joinedNames.push(element.summonerName);
 									});
 
-									if(inhouseMessageID == null) {
+									if(!(message.guild.name in serverInhouseMessageIDs)) {
 										message.delete();
 										message.channel.send('',
 												new Discord.RichEmbed({title: 'Current Players:'})
 													.addField(joinedNames.join(', '), false)
 										).then(respone => {
-											inhouseMessageID = respone.id;
+											serverInhouseMessageIDs[message.guild.name] = respone.id;
 										});
 									} else {
 										message.delete();
-										message.channel.fetchMessage(inhouseMessageID)
+										message.channel.fetchMessage(serverInhouseMessageIDs[message.guild.name])
 										.then(message => message.edit('',
 										new Discord.RichEmbed({title: 'Current Players:'})
 											.addField(joinedNames.join(', '), false)));
