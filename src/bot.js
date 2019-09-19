@@ -111,6 +111,7 @@ let initializeBot = () => {
 				switch(data) {
 					case 'clear':
 						serverInhouses.remove(message.guild.name);
+						serverInhouseMessageIDs.remove(message.guild.name);
 						break;
 					case 'start':
 						if(!(message.guild.name in serverInhouses)) {
