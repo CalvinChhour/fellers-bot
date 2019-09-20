@@ -13,7 +13,7 @@
         "ecmaVersion": 2018
     },
     "rules": {
-        "keyword-spacing" : "error",
+        "keyword-spacing": "error",
         "indent": [
             "error",
             "tab"
