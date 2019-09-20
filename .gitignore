@@ -2,3 +2,5 @@ node_modules/
 src/config.json
 */.DS_Store
 *.pem
+src/config/config.json
+.vscode/*

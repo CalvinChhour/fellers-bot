@@ -16,7 +16,7 @@ const myCustomLevels = {
 	}
 };
 
-const customLevelLogger = createLogger({ 
+const customLevelLogger = createLogger({
 	levels: myCustomLevels.levels,
 	format: combine(
 		format.colorize(myCustomLevels.colors),
