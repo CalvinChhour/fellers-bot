@@ -46,9 +46,7 @@ let initializeBot = async() => {
 			}
 			try {
 				client.commands.get(command).execute(message, data, mongo);
-			}
-
-			catch (error) {
+			} catch (error) {
 				logger.error(error);
 			}
 		}
