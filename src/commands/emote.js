@@ -19,23 +19,14 @@ module.exports = {
 
 			const emojiId = utils.parseEmojiText(data[0]);
 			logger.info(`emote id: ${emojiId}`);
-			try {
-				let message = await message.channel.send('',
-					new Discord.RichEmbed(data)
-						.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
-						.setColor(message.member.displayHexColor));
-				if (message) {
-					logger.info(`Emote attached: ${message}`);
-				}
-			} catch (error) {
-				logger.error(`Emote failed to send: ${error}`);
-			}
-
-			try {
-				await message.delete();
-			} catch (error) {
-				logger.error(`Error deleting the messgae: ${error}`);
-			}
+			message.channel.send('',
+				new Discord.RichEmbed(data)
+					.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
+					.setColor(message.member.displayHexColor))
+				.then(res => logger.info(`Emote attached: ${res}`))
+				.catch(err => logger.error(`Emote failed to send: ${err}`));
+			await message.delete()
+				.catch(err => logger.error(`Error deleting the messgae: ${err}`));
 		}
 	},
 };
