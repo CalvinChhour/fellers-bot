@@ -1,6 +1,6 @@
 const Discord = require ('discord.js');
 const logger = require('./../logger');
-const utils = require('./../utils');
+const utils = require('../utils/utils');
 
 module.exports = {
 	emote : {
@@ -34,7 +34,7 @@ module.exports = {
 			try {
 				await message.delete();
 			} catch (error) {
-				logger.error(`Error deleting the messgae: ${error}`);
+				logger.error(`Error deleting the message: ${error}`);
 			}
 		}
 	},
