@@ -20,6 +20,8 @@ let initializeBot = async() => {
 		Object.values(command).map(e => client.commands.set(e.name, e));
 	}
 
+	const serverInhouses = {};
+	const serverInhouseMessageIDs = {};
 	const mongo = await db;
 
 	client.on('ready', async () => {
@@ -33,9 +35,6 @@ let initializeBot = async() => {
 		logger.info(user.username + ' - (' + user.id + ')');
 	});
 
-	let serverInhouses = {};
-	let serverInhouseMessageIDs = {};
-
 	// Create an event listener for messages
 	client.on('message', async (message) => {
 		const content = message.content;
@@ -48,7 +47,8 @@ let initializeBot = async() => {
 				return;
 			}
 			try {
-				client.commands.get(command).execute(message, data, mongo);
+				console.log('Pre execute call: ' + serverInhouses);
+				client.commands.get(command).execute(message, data, mongo, serverInhouses, serverInhouseMessageIDs);
 			} catch (error) {
 				logger.error(error);
 			}
