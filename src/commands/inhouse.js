@@ -5,6 +5,7 @@ const urlSummRank = "https://na1.api.riotgames.com/lol/league/v4/entries/by-summ
 const urlFinish = '?api_key='+ riotKey;
 const logger = require('./../logger');
 const Discord = require ('discord.js');
+const utils = require('../utils/utils')
 
 module.exports = {
     inhouse : {
@@ -111,18 +112,12 @@ class Inhouse {
         return new Promise((resolve, reject) =>{
             new Player(newPLayerDiscordName, newPlayerSummonerName).then(response => {
                 var newPlayer = response;
-                 //if the summoner name could not be found, return -1 to let the bot know
                 if(newPlayer.summonerID === -1) {
                     resolve(-1);
-                }
-                
-                //otherwise stick the new player into our list
+                }             
                 this.players.push(newPlayer);
-    
-                //if we've got 10 players, great, start the match
                 if(this.players.length === 10 && this.currentMatch === null) {
                     this.CreateMatch();
-                    //return 0 to let our bot know to stop accepting joins
                     resolve(0);
                 }
     
@@ -136,10 +131,7 @@ class Inhouse {
     }
 }
 
-//Represents an individual player in the inhouse
-//Stores discord username and riot api data
 class Player {
-    //takes a player's discord username, translates to linked summoner id
     constructor(playerDiscordName, playerSummonerName) {
         return new Promise((resolve, reject) => {
             this.discordName = playerDiscordName;
@@ -149,7 +141,6 @@ class Player {
     
             this.getSummonerId(this.summonerName).then(response => {
                 this.summonerID = response;
-                //only try to pull more data if we succesfully pulled the ID
                 if(this.summonerID !== null) {
                     this.getRankWeight(this.summonerID).then(response => {
                         this.rankWeight = response;
@@ -161,21 +152,16 @@ class Player {
 
     }
 
-    //retrieves summoner id from summoner name
     getSummonerId(name) {
         return new Promise((resolve, reject) => {
             var _summonerId;
             let fullUrl = urlSummId + name + urlFinish;
         
-            //pull data
             https.get(fullUrl, (resp) => {
                 let data = '';
-
-                // A chunk of data has been recieved.
                 resp.on('data', (chunk) => {
                     data += chunk;
                     });
-                // The whole response has been received
                 resp.on('end', () => {
                     try {
                         var jsonResp = JSON.parse(data);
@@ -184,7 +170,6 @@ class Player {
                     } catch(e) {
                         reject(e.message);
                     }
-
                     });
             }).on("error", (err) => {
                 reject(`Got error: ${err.message}`);
@@ -192,7 +177,6 @@ class Player {
         });
     }
     
-    //returns a summoner's solo queue rank weight
     getRankWeight(summId) {
         return new Promise((resolve, reject) => {
             var _rankWeight = 0;
@@ -200,15 +184,11 @@ class Player {
             var division;
     
             let fullUrl = urlSummRank + summId + urlFinish;
-            //pull json data
             https.get(fullUrl, (resp) => {
                 let data = '';
-    
-                // A chunk of data has been recieved.
                 resp.on('data', (chunk) => {
                     data += chunk;
                   });
-                // The whole response has been received
                 resp.on('end', () => {
                     try {
                         var jsonResp = JSON.parse(data)
@@ -222,56 +202,7 @@ class Player {
                                 }
                             }
                         }
-
-                        //calculate weight
-                        switch(tier) {
-                            case "IRON":
-                                _rankWeight += 0;
-                                break;
-                            case "BRONZE":
-                                _rankWeight += 10;
-                                break;
-                            case "SILVER":
-                                _rankWeight += 20;
-                                break;
-                            case "GOLD":
-                                _rankWeight += 30;
-                                break;
-                            case "PLATINUM":
-                                _rankWeight += 40;
-                                break;
-                            case "DIAMOND":
-                                _rankWeight += 50;
-                                break;
-                            case "MASTER":
-                                _rankWeight += 80;
-                                break;
-                            case "GRANDMASTER":
-                                _rankWeight += 90;
-                                break;
-                            case "CHALLENGER":
-                                _rankWeight += 100;
-                                break;
-                            default:
-                                _rankWeight += 20;
-                        }
-                        switch(division) {
-                            case "I":
-                                _rankWeight += 8;
-                                break;
-                            case "II":
-                                _rankWeight += 6;
-                                break;
-                            case "III":
-                                _rankWeight += 4;
-                                break;
-                            case "IV":
-                                _rankWeight += 2;
-                                break;
-                            default:
-                                _rankWeight += 0;
-                                break;
-                        }
+                        _rankWeight = utils.calculateSummonerRankWeight(tier, division);
                         resolve(_rankWeight);
                     } catch(e) {
                         reject(e.message);
@@ -285,9 +216,7 @@ class Player {
     }
 }
 
-//The data representation of one inhouse match, with sorted teams
 class Match {
-    //takes a list of player objects
     constructor(players, _type) {
         if(players.length != 10) {
             console.error("need 10 players");
@@ -302,7 +231,6 @@ class Match {
     }
 
     sortTeams(players) {
-        ///TODO: Maybe can make this cleaner?
         if(this.type === '4fun') {
             players.forEach(element => {
                 let teamAssignment = Math.random(1, 3);
@@ -321,13 +249,11 @@ class Match {
                 }
             });
         } else {
-            //sort in descending order by rank weight
             players.sort(function(a, b) {
                 return b.rankWeight - a.rankWeight;
             });
 
             for(var i = 0; i < players.length; i++) {
-                //put every other player into the corresponding team
                 if(i % 2 == 0) {
                     this.team1.push(players[i]);
                 }
