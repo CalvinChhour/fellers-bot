@@ -1,11 +1,9 @@
 const https = require('https');
-const config = require('./config.json');
-const riotKey = config.riotKey;
+const riotKey = require('./config.json').riotKey;
 const urlSummId = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/';
 const urlSummRank = "https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/";
 const urlFinish = '?api_key='+ riotKey;
 
-//Represents a full inhouse
 module.exports = class Inhouse {
     constructor(_type) {
         this.players = [];
