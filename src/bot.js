@@ -47,7 +47,6 @@ let initializeBot = async() => {
 				return;
 			}
 			try {
-				console.log('Pre execute call: ' + serverInhouses);
 				client.commands.get(command).execute(message, data, mongo, serverInhouses, serverInhouseMessageIDs);
 			} catch (error) {
 				logger.error(error);
