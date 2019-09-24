@@ -232,38 +232,14 @@ class Match {
 
 	sortTeams(players) {
 		if (this.type === '4fun') {
-			// players.forEach(element => {
-			//     let teamAssignment = Math.random(1, 3);
-			//     if(teamAssignment === 1) {
-			//         if(this.team1.length < 5) {
-			//             this.team1.push(element);
-			//         } else {
-			//             this.team2.push(element);
-			//         }
-			//     } else {
-			//         if(this.team2.length < 5) {
-			//             this.team2.push(element);
-			//         } else {
-			//             this.team1.push(element);
-			//         }
-			//     }
-			// });
 			players.sort(() => Math.random() - 0.5);
 			this.team1 = players.slice(0, 5);
 			this.team2 = players.slice(5, 10);
 		} else {
 			players.sort((a, b) => {
 				return b.rankWeight - a.rankWeight;
-			});
-
-			// for(let i = 0; i < players.length; i++) {
-			//     if(i % 2 == 0) {
-			//         this.team1.push(players[i]);
-			//     }
-			//     else {
-			//         this.team2.push(players[i]);
-			//     }
-			// }
+            });
+            
 			this.team1 = players.filter(e => e % 2);
 			this.team2 = players.filter(e => !(e % 2));
 		}
