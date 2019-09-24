@@ -16,16 +16,16 @@ module.exports = {
 			} else {
 				fileType = '.png';
 			}
-
+			const payload = { title: `Sent by ${message.author.username}`};	
 			const emojiId = utils.parseEmojiText(data[0]);
 			logger.info(`emote id: ${emojiId}`);
 			try {
-				let message = await message.channel.send('',
-					new Discord.RichEmbed(data)
+				let response = await message.channel.send('',
+					new Discord.RichEmbed(payload)
 						.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
 						.setColor(message.member.displayHexColor));
-				if (message) {
-					logger.info(`Emote attached: ${message}`);
+				if (response) {
+					logger.info(`Emote attached: ${response}`);
 				}
 			} catch (error) {
 				logger.error(`Emote failed to send: ${error}`);
