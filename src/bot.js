@@ -20,6 +20,8 @@ let initializeBot = async() => {
 		Object.values(command).map(e => client.commands.set(e.name, e));
 	}
 
+	const serverInhouses = {};
+	const serverInhouseMessageIDs = {};
 	const mongo = await db;
 
 	client.on('ready', async () => {
@@ -45,7 +47,7 @@ let initializeBot = async() => {
 				return;
 			}
 			try {
-				client.commands.get(command).execute(message, data, mongo);
+				client.commands.get(command).execute(message, data, mongo, serverInhouses, serverInhouseMessageIDs);
 			} catch (error) {
 				logger.error(error);
 			}
