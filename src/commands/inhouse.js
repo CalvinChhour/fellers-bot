@@ -90,6 +90,8 @@ module.exports = {
 												.addField(joinedNames.join(', '), false)));
 								}
 							}
+						}).catch(err => {
+							logger.error(err);
 						});
 					} else {
 						message.channel.send('Please include your League of Legends summoner name like so: !f inhouse join <summoner name>');
@@ -123,6 +125,8 @@ class Inhouse {
 				}
     
 				resolve(1);
+			}).catch(err => {
+				logger.error(err);
 			});
 		});   
 	}
@@ -143,11 +147,15 @@ class Player {
 			this.getSummonerId(this.summonerName).then(response => {
 				this.summonerID = response;
 				if (this.summonerID !== null) {
-					this.getRankWeight(this.summonerID).then(response => {
-						this.rankWeight = response;
+					this.getRankWeight(this.summonerID).then(response2 => {
+						this.rankWeight = response2;
 						resolve(this);
+					}).catch(err => {
+						logger.error(err);
 					});
 				}
+			}).catch(err => {
+				logger.error(err);
 			});
 		});
 
@@ -193,13 +201,11 @@ class Player {
 				resp.on('end', () => {
 					try {
 						let jsonResp = JSON.parse(data);
-						for (let i = 0; i < 3; i++) {
-							if (jsonResp[i] != null) {
-								if (jsonResp[i].queueType === 'RANKED_SOLO_5x5') {
-									tier = jsonResp[i].tier;
-									division = jsonResp[i].rank;
-									break;
-								}
+						for (let i = 0; i < jsonResp.length; i++) {
+							if (jsonResp[i] != null && jsonResp[i].queueType === 'RANKED_SOLO_5x5') {
+								tier = jsonResp[i].tier;
+								division = jsonResp[i].rank;
+								break;
 							}
 						}
 						_rankWeight = utils.calculateSummonerRankWeight(tier, division);
@@ -238,7 +244,7 @@ class Match {
 		} else {
 			players.sort((a, b) => {
 				return b.rankWeight - a.rankWeight;
-            });
+			});
             
 			this.team1 = players.filter(e => e % 2);
 			this.team2 = players.filter(e => !(e % 2));
