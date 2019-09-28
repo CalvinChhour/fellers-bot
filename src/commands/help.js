@@ -13,6 +13,7 @@ module.exports = {
 						.setTitle('I\'m the fellers bot - developed by your local\
 								\nfellers. Here are some commands you can use.  ')
 						.setDescription('`!f emote :KannaWave:` - creates big emote\
+										\n `!f m-emote :KannaWave: :KannaDab:` - creates multiple emotes \
 										\n`!f avatar` - sends big avatar of user\
 										\n`!f whoami` - sends username\
 										\n`!f tft Jacob_Hong` - sends tft profile')
