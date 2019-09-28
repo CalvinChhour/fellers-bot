@@ -65,4 +65,15 @@ const sendErrorMessage = (message, channel) => {
 	logger.error(message);
 };
 
-module.exports = {parseEmojiText, calculateSummonerRankWeight, sendErrorMessage};
+const deleteMessage = async (message) => {
+	try {
+		let response = await message.delete();
+		if (response) {
+			logger.info(`Message deleted: ${response}`);
+		}
+	} catch (error) {
+		logger.error(`Error deleting the message: ${error}`);
+	}
+};
+
+module.exports = {deleteMessage, parseEmojiText, calculateSummonerRankWeight, sendErrorMessage};

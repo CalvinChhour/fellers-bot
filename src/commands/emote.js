@@ -1,6 +1,10 @@
 const Discord = require ('discord.js');
 const logger = require('./../logger');
-const { parseEmojiText, sendErrorMessage } = require('../utils/utils');
+const {
+	deleteMessage,
+	parseEmojiText,
+	sendErrorMessage
+} = require('../utils/utils');
 
 module.exports = {
 	emote : {
@@ -34,11 +38,7 @@ module.exports = {
 				sendErrorMessage(`Emote failed to send: ${error}`, message.channel);
 			}
 
-			try {
-				await message.delete();
-			} catch (error) {
-				logger.error(`Error deleting the message: ${error}`);
-			}
+			deleteMessage(message);
 		}
 	},
 	mEmote : {
@@ -70,11 +70,7 @@ module.exports = {
 				sendErrorMessage(`Emote failed to send: ${error}`, message.channel);
 			}
 
-			try {
-				await message.delete();
-			} catch (error) {
-				logger.error(`Error deleting the message: ${error}`);
-			}
+			deleteMessage(message);
 		}
 	},
 };
