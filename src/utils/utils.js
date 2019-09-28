@@ -8,7 +8,7 @@ const parseEmojiText = (emojiText) => {
 
 const calculateSummonerRankWeight = (tier, division) => {
 	let _rankWeight = 0;
-	//calculate weight
+
 	switch (tier) {
 	case 'IRON':
 		_rankWeight += 0;
