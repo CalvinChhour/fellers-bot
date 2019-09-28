@@ -1,6 +1,6 @@
 const Discord = require ('discord.js');
 const logger = require('./../logger');
-const {parseEmojiText, sendErrorMessage} = require('../utils/utils');
+const { parseEmojiText, sendErrorMessage } = require('../utils/utils');
 
 module.exports = {
 	emote : {
@@ -44,7 +44,7 @@ module.exports = {
 	mEmote : {
 		name : 'm-emote',
 		args : true,
-		description : 'Sends a bigger version of an emote',
+		description : 'Creates multiple emotes',
 		execute: async(message, data) => {
 			logger.info('multi-emote command...');
 			const emojis = data.filter(possibleEmoji => {
