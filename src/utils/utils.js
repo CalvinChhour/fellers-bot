@@ -1,12 +1,14 @@
-let parseEmojiText = (emojiText) => {
+const logger = require('./../logger');
+
+const parseEmojiText = (emojiText) => {
 	emojiText = emojiText.replace(/<|>/g, '');
 	emojiText = emojiText.replace(/:.*:/g, '');
 	return emojiText;
 };
 
-let calculateSummonerRankWeight = (tier, division) => {
+const calculateSummonerRankWeight = (tier, division) => {
 	let _rankWeight = 0;
-	//calculate weight
+
 	switch (tier) {
 	case 'IRON':
 		_rankWeight += 0;
@@ -57,4 +59,21 @@ let calculateSummonerRankWeight = (tier, division) => {
 	}
 	return _rankWeight;
 };
-module.exports = {parseEmojiText, calculateSummonerRankWeight};
+
+const sendErrorMessage = (message, channel) => {
+	channel.send(message);
+	logger.error(message);
+};
+
+const deleteMessage = async (message) => {
+	try {
+		let response = await message.delete();
+		if (response) {
+			logger.info(`Message deleted: ${response}`);
+		}
+	} catch (error) {
+		logger.error(`Error deleting the message: ${error}`);
+	}
+};
+
+module.exports = {deleteMessage, parseEmojiText, calculateSummonerRankWeight, sendErrorMessage};
