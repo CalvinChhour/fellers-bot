@@ -1,10 +1,12 @@
-let parseEmojiText = (emojiText) => {
+const logger = require('./../logger');
+
+const parseEmojiText = (emojiText) => {
 	emojiText = emojiText.replace(/<|>/g, '');
 	emojiText = emojiText.replace(/:.*:/g, '');
 	return emojiText;
 };
 
-let calculateSummonerRankWeight = (tier, division) => {
+const calculateSummonerRankWeight = (tier, division) => {
 	let _rankWeight = 0;
 	//calculate weight
 	switch (tier) {
@@ -57,4 +59,10 @@ let calculateSummonerRankWeight = (tier, division) => {
 	}
 	return _rankWeight;
 };
-module.exports = {parseEmojiText, calculateSummonerRankWeight};
+
+const sendErrorMessage = (message, channel) => {
+	channel.send(message);
+	logger.error(message);
+};
+
+module.exports = {parseEmojiText, calculateSummonerRankWeight, sendErrorMessage};
