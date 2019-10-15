@@ -10,9 +10,7 @@ module.exports = {
 
 			logger.info('movie night command...');
 			const movieCommand = data[0];
-			logger.info(movieCommand);
 			const movie = data.slice(1).join(' ');
-			logger.info('ADDING MOVIE' + movie);
 			try {
 				const movieEntry = await mongo.collection('Movie').findOne({_id: 'movienight'});
 				switch (movieCommand) {
@@ -44,7 +42,7 @@ module.exports = {
 					}
 					break;
 				case 'add':
-					if (movie == '') {
+					if (movie === '') {
 						message.channel.send('',
 							new Discord.RichEmbed({description: 'please specify the movie you wanna add'}));
 					} else if (movieEntry) {
