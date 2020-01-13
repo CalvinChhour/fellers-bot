@@ -1,0 +1,11 @@
+{
+    "token": "NTk4Njg5MDY5OTUzOTc0Mjcy.XY94Bg.vQl-cMyn5VusymLQcYfHocX3UoU",
+    "db": {
+        "uri": "mongodb://localhost:27017/fellers-bot",
+        "table": "test",
+        "options": {
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true
+        }
+    }
+}
