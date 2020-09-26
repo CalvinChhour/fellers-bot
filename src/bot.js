@@ -1,10 +1,8 @@
 const Discord = require('discord.js');
-const config = require('./config/config');
+const config = require('./config');
 const logger = require('./logger');
 const db = require('./mongo');
 const fs = require('fs');
-
-
 
 let initializeBot = async() => {
 	const client = new Discord.Client({

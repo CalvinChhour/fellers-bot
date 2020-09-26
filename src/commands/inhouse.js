@@ -1,5 +1,5 @@
 const https = require('https');
-const riotKey = require('./../config/config.json').riotKey;
+const riotKey = require('../config.json').riotKey;
 const urlSummId = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/';
 const urlSummRank = 'https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/';
 const urlFinish = '?api_key='+ riotKey;
