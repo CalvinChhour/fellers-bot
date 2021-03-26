@@ -13,14 +13,14 @@ module.exports = {
 				if (messageDeletion) {
 					logger.info('avatar command deleted');
 				}
-			} catch (error) {	
+			} catch (error) {
 				logger.error(`Delete message failed to send: ${error}`);
 			}
 
 			try {
 				let message = await message.channel.send('',
-					new Discord.RichEmbed(data)
-						.setImage(message.author.avatarURL)
+					new Discord.MessageEmbed(data)
+						.setImage(message.author.avatarURL())
 						.setColor('#0099ff'));
 				if (message) {
 					logger.info('Avatar sent, module');

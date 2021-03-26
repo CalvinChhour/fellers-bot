@@ -62,7 +62,7 @@ module.exports = {
 								if (serverInhouses[message.guild.name].currentMatch !== null) {
 									let desc = ((serverInhouses[message.guild.name].type === '4fun')?'Sorted randomly':'Sorted by Soloqueue Rank');
 									message.channel.send('',
-										new Discord.RichEmbed({title: 'Lineups: ', description: desc})
+										new Discord.MessageEmbed({title: 'Lineups: ', description: desc})
 											.addField('Team 1:', team1Names.join('\n'), true)
 											.addField('Team 2:', team2Names.join('\n')), true);
 								}
@@ -77,7 +77,7 @@ module.exports = {
 								if (!(message.guild.name in serverInhouseMessageIDs)) {
 									message.delete();
 									message.channel.send('',
-										new Discord.RichEmbed({title: 'Current Players:'})
+										new Discord.MessageEmbed({title: 'Current Players:'})
 											.addField(joinedNames.join(', '), false)
 									).then(respone => {
 										serverInhouseMessageIDs[message.guild.name] = respone.id;
@@ -86,7 +86,7 @@ module.exports = {
 									message.delete();
 									message.channel.fetchMessage(serverInhouseMessageIDs[message.guild.name])
 										.then(message => message.edit('',
-											new Discord.RichEmbed({title: 'Current Players:'})
+											new Discord.MessageEmbed({title: 'Current Players:'})
 												.addField(joinedNames.join(', '), false)));
 								}
 							}

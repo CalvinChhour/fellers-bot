@@ -6,7 +6,7 @@ const fs = require('fs');
 
 let initializeBot = async() => {
 	const client = new Discord.Client({
-		disableEveryone: true,
+		disableMentions: 'everyone',
 		autorun: true
 	});
 

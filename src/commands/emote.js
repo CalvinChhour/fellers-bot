@@ -28,7 +28,7 @@ module.exports = {
 			const emojiId = parseEmojiText(emoji);
 			try {
 				let response = await message.channel.send('',
-					new Discord.RichEmbed(payload)
+					new Discord.MessageEmbed(payload)
 						.setImage(`https://cdn.discordapp.com/emojis/${emojiId + fileType}`)
 						.setColor(message.member.displayHexColor));
 				if (response) {

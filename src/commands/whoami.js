@@ -7,7 +7,7 @@ module.exports = {
 		description : 'Send the user\'s username roles',
 		execute: (message) => {
 			message.channel.send('',
-				new Discord.RichEmbed({title: 'You are: ', descripton: message.author.username})
+				new Discord.MessageEmbed({title: 'You are: ', descripton: message.author.username})
 					.addField('Roles:', message.member.roles.map(r => `${r}`).join(' | '), true)
 					.setColor(message.member.displayHexColr));
 		}

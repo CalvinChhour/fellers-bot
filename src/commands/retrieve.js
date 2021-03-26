@@ -11,11 +11,11 @@ module.exports = {
 				const retrieved = await mongo.collection('Store').findOne({_id: data[0].trim()});
 				if (!retrieved) {
 					message.channel.send('',
-						new Discord.RichEmbed({description: 'This command does not exist'}));
+						new Discord.MessageEmbed({description: 'This command does not exist'}));
 				}
 				else {
 					message.channel.send('',
-						new Discord.RichEmbed({description: retrieved.RetrievedData}));
+						new Discord.MessageEmbed({description: retrieved.RetrievedData}));
 				}
 			} catch (error) {
 				logger.error(error);

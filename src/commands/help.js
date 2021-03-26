@@ -9,7 +9,7 @@ module.exports = {
 		execute: async (message) => {
 			try {
 				const response = await message.channel.send('',
-					new Discord.RichEmbed()
+					new Discord.MessageEmbed()
 						.setTitle('I\'m the fellers bot - developed by your local\
 								\nfellers. Here are some commands you can use.  ')
 						.setDescription('`!f emote :KannaWave:` - creates big emote\
