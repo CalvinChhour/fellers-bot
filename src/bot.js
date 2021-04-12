@@ -13,11 +13,6 @@ let initializeBot = async() => {
 	client.commands = new Discord.Collection();
 	const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
-	for (const file of commandFiles) {
-		const command = require(`./commands/${file}`);
-		Object.values(command).map(e => client.commands.set(e.name, e));
-	}
-
 	const serverInhouses = {};
 	const serverInhouseMessageIDs = {};
 	const mongo = await db;
@@ -27,10 +22,37 @@ let initializeBot = async() => {
 		client.user.setActivity('!f help', {type: 'PLAYING'});
 	});
 
-	client.on('ready', () => {
+	client.on('ready', async () => {
 		const user = client.user;
 		logger.info(`Logged in as ${user.tag}!`);
 		logger.info(user.username + ' - (' + user.id + ')');
+
+		// Load commands into runtime, ran on ready so we have access to client tokens
+		for (const file of commandFiles) {
+			const command = require(`./commands/${file}`);
+			Object.values(command).map(e => {
+				client.api.applications(client.user.id).commands.post({data: {
+					name: e.name,
+					description: e.description,
+					options: e.options,
+				}});
+				client.commands.set(e.name, e);
+			});
+		}
+	});
+	client.ws.on('INTERACTION_CREATE', async (interaction) => {
+		const { name, options } = interaction.data;
+		let data = options.map(option => option.value);
+
+		if (!client.commands.has(name)) {
+			logger.debug(`Command ${name} has not been found returning!`);
+			return;
+		}
+		try {
+			client.commands.get(name).respond(interaction, data, client, mongo, serverInhouses, serverInhouseMessageIDs);
+		} catch (error) {
+			logger.error(error);
+		}
 	});
 
 	// Create an event listener for messages
